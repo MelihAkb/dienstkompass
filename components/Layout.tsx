@@ -235,6 +235,56 @@ function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   );
 }
 
+function Footer() {
+  return (
+    <footer className="border-t border-gray-100 bg-white mt-16">
+      <div className="max-w-screen-xl mx-auto px-6 py-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          {/* Logo + Claim */}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-blue-600 rounded-md flex items-center justify-center">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="3" fill="white" />
+                <line x1="8" y1="1" x2="8" y2="4" stroke="white" strokeWidth="1.5" />
+                <line x1="8" y1="12" x2="8" y2="15" stroke="white" strokeWidth="1.5" />
+                <line x1="1" y1="8" x2="4" y2="8" stroke="white" strokeWidth="1.5" />
+                <line x1="12" y1="8" x2="15" y2="8" stroke="white" strokeWidth="1.5" />
+              </svg>
+            </div>
+            <span className="text-sm font-medium text-gray-700">Dienstkompass</span>
+            <span className="hidden md:inline text-gray-300 mx-2">·</span>
+            <span className="hidden md:inline text-xs text-gray-400">Infoportal für den öffentlichen Dienst</span>
+          </div>
+
+          {/* Links */}
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link href="/impressum" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
+              Impressum
+            </Link>
+            <Link href="/datenschutz" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
+              Datenschutz
+            </Link>
+            <Link href="/news" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
+              News
+            </Link>
+            <Link href="/stellen" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
+              Jobbörse
+            </Link>
+            <Link href="/pro" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
+              Pro
+            </Link>
+          </nav>
+
+          {/* Copyright */}
+          <p className="text-xs text-gray-400">
+            © {new Date().getFullYear()} Dienstkompass
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 export default function Layout({
   children,
   activePath,
@@ -245,7 +295,7 @@ export default function Layout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Top Navigation */}
       <header className="sticky top-0 z-40 bg-white border-b border-gray-100">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3">
@@ -295,7 +345,7 @@ export default function Layout({
       <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
       {/* Body: Sidebar + Content */}
-      <div className="max-w-screen-xl mx-auto flex">
+      <div className="max-w-screen-xl mx-auto flex flex-1 w-full">
         {/* Sidebar (desktop only) */}
         <div className="hidden md:block">
           <Sidebar activePath={activePath} />
@@ -306,6 +356,9 @@ export default function Layout({
           {children}
         </main>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
