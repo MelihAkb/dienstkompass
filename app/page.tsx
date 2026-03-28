@@ -115,28 +115,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Pro */}
-      <div className="bg-blue-600 rounded-2xl p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
-        <div>
-          <h2 className="text-xl font-medium text-white mb-2">Dienstkompass Pro</h2>
-          <p className="text-blue-200 text-sm mb-4">Alles was du brauchst um kein Geld zu verschenken</p>
-          <div className="flex flex-col gap-2">
-            {["Gehaltsabrechnung hochladen & prüfen lassen", "Unbegrenzter KI-Assistent", "Persönlicher Tarifalarm", "Besoldungs-Widerspruchs-Guide"].map(f => (
-              <div key={f} className="flex items-center gap-2 text-sm text-white">
-                <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-xs">✓</div>
-                {f}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="text-center">
-          <div className="text-3xl font-medium text-white">4,99 €</div>
-          <div className="text-blue-200 text-xs mb-4">pro Monat</div>
-          <Link href="/pro" className="bg-white text-blue-600 px-6 py-3 rounded-lg text-sm font-medium hover:bg-blue-50 transition-colors inline-block">
-            Jetzt starten
-          </Link>
-        </div>
-      </div>
     </Layout>
   );
 }
