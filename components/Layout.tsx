@@ -1,284 +1,290 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
-const NAVIGATION = [
+const LAENDER = [
+  { label: "BW", href: "/beamte/bw" },
+  { label: "BY", href: "/beamte/by" },
+  { label: "BE", href: "/beamte/be" },
+  { label: "BB", href: "/beamte/bb" },
+  { label: "HB", href: "/beamte/hb" },
+  { label: "HH", href: "/beamte/hh" },
+  { label: "HE", href: "/beamte/he" },
+  { label: "MV", href: "/beamte/mv" },
+  { label: "NI", href: "/beamte/ni" },
+  { label: "NW", href: "/beamte/nw" },
+  { label: "RP", href: "/beamte/rp" },
+  { label: "SL", href: "/beamte/sl" },
+  { label: "SN", href: "/beamte/sn" },
+  { label: "ST", href: "/beamte/st" },
+  { label: "SH", href: "/beamte/sh" },
+  { label: "TH", href: "/beamte/th" },
+];
+
+const GROUPS = [
   {
-    label: "TVöD",
-    href: "/tvoed",
-    children: [
-      { label: "Bund", href: "/tvoed/bund" },
-      { label: "Kommunen (VKA)", href: "/tvoed/vka" },
-      { label: "TVöD-SuE", href: "/tvoed/sue" },
-      { label: "TVöD-P (Pflege)", href: "/tvoed/p" },
-      { label: "TVöD-S (Sparkassen)", href: "/tvoed/s" },
-      { label: "TVöD-E/F/V", href: "/tvoed/bt" },
-      { label: "TV-N (Nahverkehr)", href: "/tvoed/tv-n" },
-      { label: "TV-V (Versorgung)", href: "/tvoed/tv-v" },
-      { label: "TV-Autobahn", href: "/tvoed/tv-autobahn" },
-      { label: "Tarifrunden", href: "/tvoed/tarifrunden" },
+    label: "Für Angestellte",
+    key: "angestellte",
+    items: [
+      { label: "TVöD VKA", href: "/tvoed/vka" },
+      { label: "TVöD Bund", href: "/tvoed/bund" },
+      { label: "TVöD SuE", href: "/tvoed/sue" },
+      { label: "TVöD-P", href: "/tvoed/p" },
+      { label: "TVöD-S", href: "/tvoed/s" },
+      { label: "TV-L", href: "/tv-l/allgemein" },
     ],
   },
   {
-    label: "TV-L, TV-H",
-    href: "/tv-l",
-    children: [
-      { label: "TV-L allgemein", href: "/tv-l/allgemein" },
-      { label: "TV-L KR (Pflege)", href: "/tv-l/kr" },
-      { label: "TV-L S (Soziales)", href: "/tv-l/s" },
-      { label: "TV-H (Hessen)", href: "/tv-h" },
-      { label: "Tarifrunden", href: "/tv-l/tarifrunden" },
-    ],
-  },
-  {
-    label: "Beamte",
-    href: "/beamte",
-    children: [
+    label: "Für Beamte",
+    key: "beamte",
+    items: [
       { label: "Bundesbeamte", href: "/beamte/bund" },
-      {
-        label: "Länder",
-        href: "/beamte/laender",
-        subchildren: [
-          { label: "BW", href: "/beamte/bw" },
-          { label: "BY", href: "/beamte/by" },
-          { label: "BE", href: "/beamte/be" },
-          { label: "BB", href: "/beamte/bb" },
-          { label: "HB", href: "/beamte/hb" },
-          { label: "HH", href: "/beamte/hh" },
-          { label: "HE", href: "/beamte/he" },
-          { label: "MV", href: "/beamte/mv" },
-          { label: "NI", href: "/beamte/ni" },
-          { label: "NW", href: "/beamte/nw" },
-          { label: "RP", href: "/beamte/rp" },
-          { label: "SL", href: "/beamte/sl" },
-          { label: "SN", href: "/beamte/sn" },
-          { label: "ST", href: "/beamte/st" },
-          { label: "SH", href: "/beamte/sh" },
-          { label: "TH", href: "/beamte/th" },
-        ],
-      },
-      { label: "Besoldungsvergleich", href: "/beamte/vergleich" },
     ],
   },
   {
-    label: "Ärzte",
-    href: "/aerzte",
-    children: [
-      { label: "Unikliniken", href: "/aerzte/unikliniken" },
-      { label: "Krankenhäuser", href: "/aerzte/krankenhaeuser" },
-      { label: "TV-L Ärzte", href: "/aerzte/tv-l" },
-    ],
-  },
-  {
-    label: "Kirchen & Wohlfahrt",
-    href: "/wohlfahrt",
-    children: [
-      { label: "Caritas", href: "/wohlfahrt/caritas" },
-      { label: "Diakonie", href: "/wohlfahrt/diakonie" },
-      { label: "AWO", href: "/wohlfahrt/awo" },
-      { label: "DRK", href: "/wohlfahrt/drk" },
-    ],
-  },
-  {
-    label: "Sozialversicherungen",
-    href: "/sozialversicherungen",
-    children: [
-      { label: "Bundesagentur f. Arbeit", href: "/sozialversicherungen/ba" },
-      { label: "Deutsche Rentenversicherung", href: "/sozialversicherungen/drv" },
-      { label: "AOK", href: "/sozialversicherungen/aok" },
+    label: "Kirche & Wohlfahrt",
+    key: "wohlfahrt",
+    items: [
+      { label: "Caritas AVR", href: "/wohlfahrt/caritas" },
+      { label: "Diakonie AVR", href: "/wohlfahrt/diakonie" },
     ],
   },
 ];
 
-const TOP_NAV = [
+const CATEGORY_NAV = [
   { label: "Rechner", href: "/rechner" },
   { label: "News", href: "/news" },
+  { label: "Stellen", href: "/stellen" },
+  { label: "Tarif-Finder", href: "/tarif-finder" },
   { label: "Pro", href: "/pro" },
 ];
 
 function Logo() {
   return (
-    <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-      <div className="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="3" fill="white" />
-          <line x1="8" y1="1" x2="8" y2="4" stroke="white" strokeWidth="1.5" />
-          <line x1="8" y1="12" x2="8" y2="15" stroke="white" strokeWidth="1.5" />
-          <line x1="1" y1="8" x2="4" y2="8" stroke="white" strokeWidth="1.5" />
-          <line x1="12" y1="8" x2="15" y2="8" stroke="white" strokeWidth="1.5" />
-        </svg>
-      </div>
-      <span className="font-medium text-gray-900">Dienstkompass</span>
+    <Link href="/" className="flex items-center flex-shrink-0">
+      <img src="/logo.png" className="h-7 w-auto" alt="dienstkompass" />
     </Link>
   );
 }
 
-function Sidebar({ activePath }: { activePath?: string }) {
-  const [openSections, setOpenSections] = useState<string[]>(["TVöD"]);
+function SearchIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
 
-  function toggleSection(label: string) {
-    setOpenSections(prev =>
-      prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]
-    );
+function BurgerIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  );
+}
+
+function CloseIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+function NavGroups({ activePath, onLinkClick }: { activePath?: string; onLinkClick?: () => void }) {
+  const [open, setOpen] = useState<Record<string, boolean>>({
+    angestellte: true,
+    beamte: true,
+    wohlfahrt: true,
+  });
+
+  function toggle(key: string) {
+    setOpen(prev => ({ ...prev, [key]: !prev[key] }));
   }
 
   return (
-    <aside className="w-52 flex-shrink-0 border-r border-gray-100 min-h-screen pt-6 pr-4">
-      {NAVIGATION.map((section) => {
-        const isOpen = openSections.includes(section.label);
-        return (
-          <div key={section.label} className="mb-1">
-            <button
-              onClick={() => toggleSection(section.label)}
-              className={`w-full text-left text-sm font-medium px-2 py-1.5 rounded-md transition-colors flex items-center justify-between ${
-                activePath?.startsWith(section.href)
-                  ? "text-blue-600"
-                  : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-              }`}
-            >
-              {section.label}
-              <span className="text-gray-400 text-xs">{isOpen ? "▾" : "▸"}</span>
-            </button>
+    <div>
+      <Link
+        href="/tarif-finder"
+        onClick={onLinkClick}
+        className="flex items-center justify-center gap-1.5 w-full bg-blue-600 text-white text-sm font-medium px-3 py-2 rounded-lg mb-5 hover:bg-blue-700 transition-colors"
+      >
+        🧭 Tarif Finder
+      </Link>
 
-            {isOpen && section.children && (
-              <div className="ml-3 mt-0.5 mb-1">
-                {section.children.map((child) => (
-                  <div key={child.label}>
+      {GROUPS.map((group, i) => (
+        <div key={group.key}>
+          {i > 0 && <div className="h-px bg-gray-100 my-3" />}
+          <button
+            onClick={() => toggle(group.key)}
+            className="w-full flex items-center justify-between mb-1 px-1"
+          >
+            <span className="text-xs uppercase tracking-wider text-gray-400 font-medium">
+              {group.label}
+            </span>
+            <span className="text-gray-300 text-xs">{open[group.key] ? "▾" : "▸"}</span>
+          </button>
+
+          {open[group.key] && (
+            <div className="space-y-0.5">
+              {group.items.map(item => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onLinkClick}
+                  className={`block text-sm px-2 py-1.5 rounded-md transition-colors ${
+                    activePath === item.href
+                      ? "text-blue-600 bg-blue-50 font-medium"
+                      : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {group.key === "beamte" && (
+                <div className="grid grid-cols-4 gap-x-1 gap-y-0.5 px-2 pt-1 pb-0.5">
+                  {LAENDER.map(l => (
                     <Link
-                      href={child.href}
-                      className={`block text-sm px-2 py-1 rounded transition-colors ${
-                        activePath === child.href
+                      key={l.href}
+                      href={l.href}
+                      onClick={onLinkClick}
+                      className={`text-xs text-center py-1 rounded transition-colors ${
+                        activePath === l.href
                           ? "text-blue-600 font-medium"
-                          : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                          : "text-gray-400 hover:text-blue-600"
                       }`}
                     >
-                      {child.label}
+                      {l.label}
                     </Link>
-                    {"subchildren" in child && child.subchildren && (
-                      <div className="ml-3 flex flex-wrap gap-x-2 py-1">
-                        {child.subchildren.map((sub) => (
-                          <Link
-                            key={sub.label}
-                            href={sub.href}
-                            className="text-xs text-gray-400 hover:text-blue-600 transition-colors"
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Sidebar({ activePath }: { activePath?: string }) {
+  return (
+    <aside className="w-52 flex-shrink-0 border-r border-gray-200 min-h-screen pt-4 pr-4">
+      <NavGroups activePath={activePath} />
     </aside>
   );
 }
 
-function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  if (!isOpen) return null;
+function CategoryBar({ activePath }: { activePath?: string }) {
   return (
-    <div className="fixed inset-0 z-50 bg-black/40" onClick={onClose}>
-      <div
-        className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-xl overflow-y-auto p-6"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between mb-6">
-          <Logo />
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
-        </div>
-        {NAVIGATION.map((section) => (
-          <div key={section.label} className="mb-4">
-            <div className="text-sm font-medium text-gray-900 mb-2">{section.label}</div>
-            <div className="ml-3 space-y-1">
-              {section.children?.map((child) => (
-                <div key={child.label}>
-                  <Link
-                    href={child.href}
-                    onClick={onClose}
-                    className="block text-sm text-gray-500 hover:text-blue-600 py-0.5"
-                  >
-                    {child.label}
-                  </Link>
-                  {"subchildren" in child && child.subchildren && (
-                    <div className="ml-3 flex flex-wrap gap-x-3 py-1">
-                      {child.subchildren.map((sub) => (
-                        <Link
-                          key={sub.label}
-                          href={sub.href}
-                          onClick={onClose}
-                          className="text-xs text-gray-400 hover:text-blue-600"
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+    <div className="sticky top-14 z-40 bg-white border-b border-gray-200 md:hidden">
+      <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        {CATEGORY_NAV.map(item => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`flex-shrink-0 text-sm font-medium px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+              activePath === item.href
+                ? "border-blue-600 text-blue-600"
+                : "border-transparent text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            {item.label}
+          </Link>
         ))}
-        <div className="border-t border-gray-100 pt-4 mt-4 space-y-2">
-          {TOP_NAV.map(item => (
-            <Link key={item.label} href={item.href} onClick={onClose} className="block text-sm text-gray-600 hover:text-blue-600">
-              {item.label}
-            </Link>
-          ))}
+      </div>
+    </div>
+  );
+}
+
+function BurgerMenu({ isOpen, onClose, activePath }: { isOpen: boolean; onClose: () => void; activePath?: string }) {
+  return (
+    <>
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40"
+          style={{ top: 56 }}
+          onClick={onClose}
+        />
+      )}
+      {/* Drawer */}
+      <div
+        className={`fixed top-14 right-0 z-50 w-72 bg-white shadow-xl overflow-y-auto transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        style={{ height: "calc(100vh - 56px)" }}
+      >
+        <div className="p-5">
+          <NavGroups activePath={activePath} onLinkClick={onClose} />
         </div>
       </div>
+    </>
+  );
+}
+
+function SearchOverlay({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 50);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-md px-4 py-3 flex items-center gap-3" style={{ top: 56 }}>
+      <SearchIcon />
+      <input
+        ref={inputRef}
+        type="text"
+        placeholder="Tarifvertrag suchen..."
+        className="flex-1 text-sm text-gray-900 outline-none placeholder-gray-400"
+      />
+      <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+        <CloseIcon size={18} />
+      </button>
     </div>
   );
 }
 
 function Footer() {
   return (
-    <footer className="border-t border-gray-100 bg-white mt-16">
+    <footer className="border-t border-gray-200 bg-white mt-16">
       <div className="max-w-screen-xl mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          {/* Logo + Claim */}
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-600 rounded-md flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="3" fill="white" />
-                <line x1="8" y1="1" x2="8" y2="4" stroke="white" strokeWidth="1.5" />
-                <line x1="8" y1="12" x2="8" y2="15" stroke="white" strokeWidth="1.5" />
-                <line x1="1" y1="8" x2="4" y2="8" stroke="white" strokeWidth="1.5" />
-                <line x1="12" y1="8" x2="15" y2="8" stroke="white" strokeWidth="1.5" />
-              </svg>
-            </div>
-            <span className="text-sm font-medium text-gray-700">Dienstkompass</span>
+            <img src="/logo.png" className="h-6 w-auto" alt="dienstkompass" />
             <span className="hidden md:inline text-gray-300 mx-2">·</span>
             <span className="hidden md:inline text-xs text-gray-400">Infoportal für den öffentlichen Dienst</span>
           </div>
 
-          {/* Links */}
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link href="/impressum" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
-              Impressum
-            </Link>
-            <Link href="/datenschutz" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
-              Datenschutz
-            </Link>
-            <Link href="/news" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
-              News
-            </Link>
-            <Link href="/stellen" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
-              Jobbörse
-            </Link>
-            <Link href="/pro" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">
-              Pro
-            </Link>
+            <Link href="/impressum" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">Impressum</Link>
+            <Link href="/datenschutz" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">Datenschutz</Link>
+            <Link href="/news" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">News</Link>
+            <Link href="/stellen" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">Jobbörse</Link>
+            <Link href="/sitemap" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">Sitemap</Link>
+            <Link href="/pro" className="text-xs text-gray-400 hover:text-gray-700 transition-colors">Pro</Link>
           </nav>
 
-          {/* Copyright */}
-          <p className="text-xs text-gray-400">
-            © {new Date().getFullYear()} Dienstkompass
-          </p>
+          <p className="text-xs text-gray-400">© {new Date().getFullYear()} Dienstkompass</p>
         </div>
       </div>
     </footer>
@@ -292,38 +298,24 @@ export default function Layout({
   children: React.ReactNode;
   activePath?: string;
 }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [burgerOpen, setBurgerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Top Navigation */}
-      <header className="sticky top-0 z-40 bg-white border-b border-gray-100">
-        <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-3">
-          {/* Left: Burger (mobile) + Logo */}
-          <div className="flex items-center gap-3">
-            <button
-              className="md:hidden text-gray-500 hover:text-gray-900"
-              onClick={() => setMobileOpen(true)}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
-            <Logo />
-          </div>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#F7F7F5" }}>
+      {/* Header */}
+      <header className="sticky top-0 z-50 h-14 flex items-center px-4 md:px-6" style={{ backgroundColor: "#1D6FB8" }}>
+        <div className="max-w-screen-xl mx-auto w-full flex items-center justify-between">
+          <Logo />
 
-          {/* Center: Top Nav Links (desktop) */}
+          {/* Desktop nav (hidden on mobile) */}
           <nav className="hidden md:flex items-center gap-6">
-            {TOP_NAV.map(item => (
+            {CATEGORY_NAV.map(item => (
               <Link
-                key={item.label}
+                key={item.href}
                 href={item.href}
                 className={`text-sm transition-colors ${
-                  activePath === item.href
-                    ? "text-blue-600 font-medium"
-                    : "text-gray-500 hover:text-gray-900"
+                  activePath === item.href ? "text-white font-medium" : "text-white/70 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -331,33 +323,42 @@ export default function Layout({
             ))}
           </nav>
 
-          {/* Right: CTA */}
-          <Link
-            href="/pro"
-            className="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Kostenlos starten
-          </Link>
+          {/* Mobile right icons */}
+          <div className="flex items-center gap-3 md:hidden text-white">
+            <button onClick={() => { setSearchOpen(s => !s); setBurgerOpen(false); }} aria-label="Suche">
+              <SearchIcon />
+            </button>
+            <button onClick={() => { setBurgerOpen(s => !s); setSearchOpen(false); }} aria-label="Menü">
+              {burgerOpen ? <CloseIcon /> : <BurgerIcon />}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile Menu */}
-      <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+      {/* Search overlay */}
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
-      {/* Body: Sidebar + Content */}
+      {/* Category bar (mobile only) */}
+      <CategoryBar activePath={activePath} />
+
+      {/* Burger menu (mobile only) */}
+      <div className="md:hidden">
+        <BurgerMenu isOpen={burgerOpen} onClose={() => setBurgerOpen(false)} activePath={activePath} />
+      </div>
+
+      {/* Body */}
       <div className="max-w-screen-xl mx-auto flex flex-1 w-full">
         {/* Sidebar (desktop only) */}
         <div className="hidden md:block">
           <Sidebar activePath={activePath} />
         </div>
 
-        {/* Main Content */}
-        <main className="flex-1 min-w-0 px-8 py-8">
+        {/* Main content */}
+        <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8">
           {children}
         </main>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

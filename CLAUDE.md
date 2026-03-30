@@ -53,6 +53,20 @@ Entwickler: Melih (melih@akbiyik.eu)
 - Domain SSL in Coolify eintragen (https://dienstkompass.de)
 - Google Search Console einrichten
 - Directus API mit Next.js verbinden (Tarifdaten aus DB statt hardcoded)
+- News-Workflow: Artikel in Directus schreiben (draft → review → published), manuelles Freischalten, Next.js holt nur published Artikel
+- Kommentarfunktion: Nur für eingeloggte User sichtbar und nutzbar, Kommentare in DB, optionale Moderation vor Freischaltung
+- News-Artikel werden von KI generiert und vor Publish manuell humanisiert/bearbeitet
+- Stellenbörse: Bundesagentur für Arbeit API (kostenlos) für externe Stellen, später eigene Inserate
+- Google Analytics 4: vollständiges Tracking (Seitenaufrufe, Klicks, Verweildauer, Conversions, Pro-Signups, Stripe-Events)
+- Cookie-Banner: DSGVO-konform, Consent Management vor GA4-Aktivierung (z.B. Cookiebot oder eigene Lösung)
+- Newsletter: Brevo (ehemals Sendinblue) – kostenlos bis 300 Mails/Tag, DSGVO-konform, EU-Server, Double-Opt-In. Use Cases: Willkommensmail, Tarifalarm, wöchentlicher Newsletter, Pro-Upgrade Reminder
+- Kontaktseite (/kontakt) mit Formular – Name, Email, Betreff, Nachricht. Versand über Brevo API, Bestätigungsmail an User
+- Blog (/blog) – zeitlose Ratgeber & Guides (z.B. Stufenaufstieg, Eingruppierung, Elternzeit, Quereinstieg). KI generiert, manuell humanisiert, über Directus verwaltet. Starker SEO-Hebel für Long-Tail Keywords
+- Announcement Bar: schmaler Banner direkt unter der Navigation, über Directus WYSIWYG befüllbar, ein/ausschaltbar. Für Tarifrunden-News, wichtige Hinweise etc.
+- Sitemap: automatisch generierte XML-Sitemap (/sitemap.xml) für Google + HTML-Sitemap-Seite (/sitemap) für User mit allen Seiten übersichtlich aufgelistet
+- FAQ Sections: unter jeder Tabellen/Rechner-Seite, tarifspezifische Fragen & Antworten. Über Directus pflegbar. Auch als JSON-LD Schema Markup für Google (FAQ Rich Snippets)
+- Tarif Finder (/tarif-finder): Landing Page mit Schritt-für-Schritt Fragebogen (Arbeitgeber-Typ, Bundesland, Berufsfeld, Ausbildung etc.) → zeigt welcher Tarifvertrag gilt. Besonders für Gen Z / Berufseinsteiger / Quereinsteiger. Prominenter Button in der Sidebar auf allen Seiten.
+- Anwärter-Sections: auf jeder Beamte-Länderseite eine eigene Section mit Anwärterbezügen je Laufbahngruppe (einfacher, mittlerer, gehobener, höherer Dienst), Infos zu Anwärtersonderzuschlägen, Dauer des Vorbereitungsdienstes und Übernahme nach Prüfung. Kein Konkurrent bietet das aktuell an.
 
 ## Design
 - Finanzfluss-Stil: hell, viel Weißraum, saubere Typografie
@@ -88,6 +102,7 @@ Dynamisch unter /tvoed/vka/tarifrunden/[jahr]/page.tsx
   - Unbegrenzter KI-Assistent
   - Persönlicher Tarifalarm
   - Besoldungs-Widerspruchs-Guide
+  - Werbefrei (keine Ads)
 - **Jobbörse:** Stellenanzeigen für öffentliche Arbeitgeber
 - **Display Ads:** Nach Traffic-Aufbau (Ezoic/Mediavine)
 
@@ -96,3 +111,4 @@ Dynamisch unter /tvoed/vka/tarifrunden/[jahr]/page.tsx
 - Ziel: Daten in Directus pflegen, Next.js holt per API
 - Keine externe Auth-Library entschieden (kommt noch)
 - PostgreSQL (Directus) statt MySQL (war ursprünglich geplant)
+- Beihilfe-Erinnerungen: für Beamte je nach Dienstherr (Bund/Land) – Erinnerung an Fristen für Beihilfeeinreichung, Hinweise auf beihilfefähige Leistungen, Ausschlussfristen (meist 1 Jahr). Als persönliche Benachrichtigung im Userpanel (Pro Feature).
