@@ -337,7 +337,7 @@ export default function VKAJahrClient({ jahr }: { jahr: string }) {
           <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-md">{data.einmalzahlung}</span>
         )}
       </div>
-      <h1 className="text-3xl font-medium text-gray-900 mb-1">
+      <h1 id="ueberschrift" className="text-3xl font-medium text-gray-900 mb-1">
         TVöD VKA {jahr} Gehaltsrechner
       </h1>
       <p className="text-gray-500 mb-8 max-w-2xl text-sm">
@@ -540,7 +540,7 @@ export default function VKAJahrClient({ jahr }: { jahr: string }) {
         <p className="text-gray-500 text-sm mb-5">
           Monatliche Bruttoentgelte in Euro · Gültig ab {data.gueltigAb} · Klick auf eine Zelle berechnet das Netto
         </p>
-        <div className="overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm">
+        <div id="tabelle" className="overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50">

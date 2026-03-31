@@ -132,7 +132,7 @@ function TarifCard({ tabelle }: { tabelle: typeof TABELLEN.aktuell | typeof TABE
       <p className="text-sm text-gray-500 leading-relaxed flex-1">{tabelle.details}</p>
       <div className="text-xs text-gray-400 border-t border-gray-50 pt-3">{tabelle.abschluss}</div>
       <div className="flex gap-2">
-        <Link href={`/tvoed/vka/${tabelle.id}`} className="flex-1 text-center text-sm border border-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+        <Link href={`/tvoed/vka/${tabelle.id}/rechner#tabelle`} className="flex-1 text-center text-sm border border-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors">
           Tabelle anzeigen
         </Link>
         <Link href={`/tvoed/vka/${tabelle.id}/rechner`} className="flex-1 text-center text-sm bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
@@ -180,7 +180,7 @@ export default function TVoeDVKAPage() {
               {a.mindest && <div className="text-xs text-gray-400 mb-3">{a.mindest}</div>}
               <div className="text-xs text-gray-400 border-t border-gray-50 pt-2 mb-3">{a.abschluss}</div>
               <div className="flex gap-2">
-                <Link href={`/tvoed/vka/${a.id}`} className="flex-1 text-center text-xs border border-gray-200 text-gray-600 py-1.5 rounded-lg hover:bg-gray-50 transition-colors">
+                <Link href={`/tvoed/vka/${a.id}/rechner#tabelle`} className="flex-1 text-center text-xs border border-gray-200 text-gray-600 py-1.5 rounded-lg hover:bg-gray-50 transition-colors">
                   Tabelle
                 </Link>
                 <Link href={`/tvoed/vka/${a.id}/rechner`} className="flex-1 text-center text-xs bg-gray-900 text-white py-1.5 rounded-lg hover:bg-gray-700 transition-colors">

@@ -330,13 +330,13 @@ export default function Rechner({
 
       {/* Entgelttabelle */}
       <div>
-        <h2 className="text-xl font-medium text-gray-900 mb-2">
+        <h2 id="ueberschrift" className="text-xl font-medium text-gray-900 mb-2">
           {isBeamte ? "Besoldungstabelle" : "Entgelttabelle"} {titel.replace("Rechner", "").replace("Gehaltsrechner", "").replace("Besoldungsrechner", "").trim()}
         </h2>
         <p className="text-gray-500 text-sm mb-6">
           Monatliche {isBeamte ? "Bruttobesoldung" : "Bruttoentgelte"} in Euro · Gültig ab {gueltigAb} · Klicke auf eine Zelle zur Berechnung
         </p>
-        <div className="overflow-x-auto rounded-xl border border-gray-100">
+        <div id="tabelle" className="overflow-x-auto rounded-xl border border-gray-100">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-200 bg-gray-50">

@@ -38,14 +38,6 @@ export default function Home() {
         <p className="text-lg text-gray-500 leading-relaxed mb-8">
           Entgelttabellen, Gehaltsrechner und ein KI-Assistent der deine Fragen sofort beantwortet. Für Beamte und Tarifbeschäftigte.
         </p>
-        <div className="flex gap-3 flex-wrap">
-          <Link href="/tvoed/vka" className="bg-blue-600 text-white px-6 py-3 rounded-lg text-sm hover:bg-blue-700 transition-colors">
-            Gehalt berechnen
-          </Link>
-          <Link href="/pro" className="border border-gray-200 text-gray-900 px-6 py-3 rounded-lg text-sm hover:bg-gray-50 transition-colors">
-            Abrechnung prüfen lassen
-          </Link>
-        </div>
         <div className="flex gap-8 mt-8 flex-wrap">
           {[{ num: "20+", label: "Tarifverträge" }, { num: "16", label: "Bundesländer" }, { num: "5 Mio.", label: "Beschäftigte" }, { num: "KI", label: "Assistent" }].map(s => (
             <div key={s.label} className="text-center">
