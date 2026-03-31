@@ -212,7 +212,7 @@ export default function BWJahrClient({ jahr }: { jahr: string }) {
                   </div>
                   <div>
                     <div className="text-gray-600">Sozialabgaben</div>
-                    <div className="font-medium">{fmt(ergebnis.sozialabgaben)}</div>
+                    <div className="font-medium">{fmt(ergebnis.kv + ergebnis.pv + ergebnis.rv + ergebnis.av)}</div>
                   </div>
                 </div>
               </div>
