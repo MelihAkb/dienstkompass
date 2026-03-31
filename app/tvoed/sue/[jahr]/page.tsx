@@ -103,5 +103,5 @@ export default function TVoeDSuEJahrPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  return Object.keys(TVOED_SUE_TABELLEN).map(jahr => ({ jahr }));
+  return ["2024", "2025", "2026"].map(jahr => ({ jahr }));
 }

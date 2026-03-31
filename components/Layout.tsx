@@ -4,22 +4,22 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 const LAENDER = [
-  { label: "BW", href: "/beamte/bw" },
-  { label: "BY", href: "/beamte/by" },
-  { label: "BE", href: "/beamte/be" },
-  { label: "BB", href: "/beamte/bb" },
-  { label: "HB", href: "/beamte/hb" },
-  { label: "HH", href: "/beamte/hh" },
-  { label: "HE", href: "/beamte/he" },
-  { label: "MV", href: "/beamte/mv" },
-  { label: "NI", href: "/beamte/ni" },
-  { label: "NW", href: "/beamte/nw" },
-  { label: "RP", href: "/beamte/rp" },
-  { label: "SL", href: "/beamte/sl" },
-  { label: "SN", href: "/beamte/sn" },
-  { label: "ST", href: "/beamte/st" },
-  { label: "SH", href: "/beamte/sh" },
-  { label: "TH", href: "/beamte/th" },
+  { label: "Baden-Württemberg", href: "/beamte/bw" },
+  { label: "Bayern", href: "/beamte/by" },
+  { label: "Berlin", href: "/beamte/be" },
+  { label: "Brandenburg", href: "/beamte/bb" },
+  { label: "Bremen", href: "/beamte/hb" },
+  { label: "Hamburg", href: "/beamte/hh" },
+  { label: "Hessen", href: "/beamte/he" },
+  { label: "Mecklenburg-Vorpommern", href: "/beamte/mv" },
+  { label: "Niedersachsen", href: "/beamte/ni" },
+  { label: "Nordrhein-Westfalen", href: "/beamte/nw" },
+  { label: "Rheinland-Pfalz", href: "/beamte/rp" },
+  { label: "Saarland", href: "/beamte/sl" },
+  { label: "Sachsen", href: "/beamte/sn" },
+  { label: "Sachsen-Anhalt", href: "/beamte/st" },
+  { label: "Schleswig-Holstein", href: "/beamte/sh" },
+  { label: "Thüringen", href: "/beamte/th" },
 ];
 
 const GROUPS = [
@@ -32,15 +32,20 @@ const GROUPS = [
       { label: "TVöD SuE", href: "/tvoed/sue" },
       { label: "TVöD-P", href: "/tvoed/p" },
       { label: "TVöD-S", href: "/tvoed/s" },
-      { label: "TV-L", href: "/tv-l/allgemein" },
+      { label: "TV-L", href: "/tv-l" },
     ],
   },
   {
-    label: "Für Beamte",
-    key: "beamte",
+    label: "Bundesbeamte",
+    key: "bundesbeamte",
     items: [
       { label: "Bundesbeamte", href: "/beamte/bund" },
     ],
+  },
+  {
+    label: "Landesbeamte",
+    key: "landesbeamte",
+    items: LAENDER,
   },
   {
     label: "Kirche & Wohlfahrt",
@@ -99,7 +104,8 @@ function CloseIcon({ size = 20 }: { size?: number }) {
 function NavGroups({ activePath, onLinkClick }: { activePath?: string; onLinkClick?: () => void }) {
   const [open, setOpen] = useState<Record<string, boolean>>({
     angestellte: true,
-    beamte: true,
+    bundesbeamte: true,
+    landesbeamte: true,
     wohlfahrt: true,
   });
 
@@ -109,14 +115,6 @@ function NavGroups({ activePath, onLinkClick }: { activePath?: string; onLinkCli
 
   return (
     <div>
-      <Link
-        href="/tarif-finder"
-        onClick={onLinkClick}
-        className="flex items-center justify-center gap-1.5 w-full bg-blue-600 text-white text-sm font-medium px-3 py-2 rounded-lg mb-5 hover:bg-blue-700 transition-colors"
-      >
-        🧭 Tarif Finder
-      </Link>
-
       {GROUPS.map((group, i) => (
         <div key={group.key}>
           {i > 0 && <div className="h-px bg-gray-100 my-3" />}
@@ -146,25 +144,6 @@ function NavGroups({ activePath, onLinkClick }: { activePath?: string; onLinkCli
                   {item.label}
                 </Link>
               ))}
-
-              {group.key === "beamte" && (
-                <div className="grid grid-cols-4 gap-x-1 gap-y-0.5 px-2 pt-1 pb-0.5">
-                  {LAENDER.map(l => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      onClick={onLinkClick}
-                      className={`text-xs text-center py-1 rounded transition-colors ${
-                        activePath === l.href
-                          ? "text-blue-600 font-medium"
-                          : "text-gray-400 hover:text-blue-600"
-                      }`}
-                    >
-                      {l.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -307,21 +286,6 @@ export default function Layout({
       <header className="sticky top-0 z-50 h-14 flex items-center px-4 md:px-6" style={{ backgroundColor: "#1D6FB8" }}>
         <div className="max-w-screen-xl mx-auto w-full flex items-center justify-between">
           <Logo />
-
-          {/* Desktop nav (hidden on mobile) */}
-          <nav className="hidden md:flex items-center gap-6">
-            {CATEGORY_NAV.map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`text-sm transition-colors ${
-                  activePath === item.href ? "text-white font-medium" : "text-white/70 hover:text-white"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
 
           {/* Mobile right icons */}
           <div className="flex items-center gap-3 md:hidden text-white">

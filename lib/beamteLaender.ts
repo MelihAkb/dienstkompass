@@ -1,7 +1,7 @@
 import { EntgeltTabelle } from "@/lib/tarifDaten";
 
 // Bayern Beamte A-Besoldung - ab 01.12.2023
-export const BEAMTE_BY: EntgeltTabelle = {
+export const BEAMTE_BY_2023: EntgeltTabelle = {
   "A 2":  { "1": 2089.12, "2": 2145.34, "3": 2201.56, "4": 2257.78, "5": 2314.00, "6": 2370.22 },
   "A 3":  { "1": 2156.34, "2": 2215.56, "3": 2274.78, "4": 2334.00, "5": 2393.22, "6": 2452.44 },
   "A 4":  { "1": 2234.56, "2": 2296.78, "3": 2359.00, "4": 2421.22, "5": 2483.44, "6": 2545.66 },
@@ -18,6 +18,29 @@ export const BEAMTE_BY: EntgeltTabelle = {
   "A 15": { "1": 6183.98, "2": 6515.20, "3": 6846.42, "4": 7177.64, "5": 7508.86, "6": 7840.08 },
   "A 16": { "1": 6881.20, "2": 7279.42, "3": 7677.64, "4": 8075.86, "5": 8474.08, "6": 8872.30 },
 };
+
+// Bayern Beamte - ab 01.01.2022 (geschätzt -3%)
+export const BEAMTE_BY_2022: EntgeltTabelle = Object.fromEntries(
+  Object.entries(BEAMTE_BY_2023).map(([gruppe, stufen]) => [
+    gruppe,
+    Object.fromEntries(
+      Object.entries(stufen).map(([stufe, wert]) => [stufe, Math.round(wert * 0.97 * 100) / 100])
+    ),
+  ])
+);
+
+// Bayern Beamte - ab 01.01.2021 (geschätzt -3% von 2022)
+export const BEAMTE_BY_2021: EntgeltTabelle = Object.fromEntries(
+  Object.entries(BEAMTE_BY_2022).map(([gruppe, stufen]) => [
+    gruppe,
+    Object.fromEntries(
+      Object.entries(stufen).map(([stufe, wert]) => [stufe, Math.round(wert * 0.97 * 100) / 100])
+    ),
+  ])
+);
+
+// Aktuelle für BY
+export const BEAMTE_BY = BEAMTE_BY_2023;
 
 // NRW Beamte - ab 01.04.2024
 export const BEAMTE_NW: EntgeltTabelle = {
@@ -39,7 +62,7 @@ export const BEAMTE_NW: EntgeltTabelle = {
 };
 
 // Baden-Württemberg Beamte - ab 01.03.2024
-export const BEAMTE_BW: EntgeltTabelle = {
+export const BEAMTE_BW_2024: EntgeltTabelle = {
   "A 2":  { "1": 2112.34, "2": 2169.56, "3": 2226.78, "4": 2284.00, "5": 2341.22, "6": 2398.44 },
   "A 3":  { "1": 2182.56, "2": 2242.78, "3": 2303.00, "4": 2363.22, "5": 2423.44, "6": 2483.66 },
   "A 4":  { "1": 2262.78, "2": 2326.00, "3": 2389.22, "4": 2452.44, "5": 2515.66, "6": 2578.88 },
@@ -56,6 +79,39 @@ export const BEAMTE_BW: EntgeltTabelle = {
   "A 15": { "1": 6245.20, "2": 6578.42, "3": 6911.64, "4": 7244.86, "5": 7578.08, "6": 7911.30 },
   "A 16": { "1": 6945.42, "2": 7346.64, "3": 7747.86, "4": 8149.08, "5": 8550.30, "6": 8951.52 },
 };
+
+// Baden-Württemberg Beamte - ab 01.01.2023 (geschätzt -3%)
+export const BEAMTE_BW_2023: EntgeltTabelle = Object.fromEntries(
+  Object.entries(BEAMTE_BW_2024).map(([gruppe, stufen]) => [
+    gruppe,
+    Object.fromEntries(
+      Object.entries(stufen).map(([stufe, wert]) => [stufe, Math.round(wert * 0.97 * 100) / 100])
+    ),
+  ])
+);
+
+// Baden-Württemberg Beamte - ab 01.01.2022 (geschätzt -3% von 2023)
+export const BEAMTE_BW_2022: EntgeltTabelle = Object.fromEntries(
+  Object.entries(BEAMTE_BW_2023).map(([gruppe, stufen]) => [
+    gruppe,
+    Object.fromEntries(
+      Object.entries(stufen).map(([stufe, wert]) => [stufe, Math.round(wert * 0.97 * 100) / 100])
+    ),
+  ])
+);
+
+// Baden-Württemberg Beamte - ab 01.01.2021 (geschätzt -3% von 2022)
+export const BEAMTE_BW_2021: EntgeltTabelle = Object.fromEntries(
+  Object.entries(BEAMTE_BW_2022).map(([gruppe, stufen]) => [
+    gruppe,
+    Object.fromEntries(
+      Object.entries(stufen).map(([stufe, wert]) => [stufe, Math.round(wert * 0.97 * 100) / 100])
+    ),
+  ])
+);
+
+// Aktuelle für BW
+export const BEAMTE_BW = BEAMTE_BW_2024;
 
 // Berlin Beamte A-Besoldung - ab 01.01.2024
 export const BEAMTE_BE: EntgeltTabelle = {
